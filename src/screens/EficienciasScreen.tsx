@@ -1,23 +1,23 @@
 import React, {useEffect, useState} from 'react';
+import {GraphQLClient, gql} from 'graphql-request';
 import {FlatList, StyleSheet, Text, View} from 'react-native';
-import {SobrecalentamientoPreview} from '../components/SobrecalentamientoPreview';
-import {gql, GraphQLClient} from 'graphql-request';
+import {EficienciaDeTrabajo} from '../types/graphqlTypes';
 import {SERVER_IP} from 'react-native-dotenv';
-import {Sobrecalentamiento} from '../types/graphqlTypes';
+import {EficienciaPreview} from '../components/EficienciaPreview';
 
-export const SobrecalentamientosScreen = () => {
-  const [sobrecalentamientos, setSobrecalentamientos] = useState<
-    Sobrecalentamiento[]
+export const EficienciasScreen = () => {
+  const [eficienciasDeTrabajo, setEficienciasDeTrabajo] = useState<
+    EficienciaDeTrabajo[]
   >();
 
-  const fetchSobrecalentamientos = async () => {
+  const fetchEficienciasDeTrabajo = async () => {
     const graphQLClient = new GraphQLClient(`${SERVER_IP}/api`, {
       mode: 'cors',
     });
 
     const query = gql`
       {
-        getSobrecalentamientos {
+        getEficienciasDeTrabajo {
           id
           fecha_hora
           CR
@@ -25,15 +25,15 @@ export const SobrecalentamientosScreen = () => {
           id_usuario
           nombre_usuario
           unidad
-          refrigerante
-          presion_arranque
-          presion_paro
-          presion_succion
-          resistencia_pt1000
-          temp_tubo
-          temp_saturacion
-          temp_sobrecalentamiento
-          temp_ambiente
+          retorno
+          inyeccion
+          retorno2
+          inyeccion2
+          porcentaje_evaporador
+          ciclos_evaporador
+          porcentaje_condensador
+          ciclos_condensador
+          delta
           aprobado
           comentarios
         }
@@ -43,14 +43,14 @@ export const SobrecalentamientosScreen = () => {
     await graphQLClient
       .request(query)
       .then(data => {
+        console.log('fetching eficiencias');
         // console.log(JSON.stringify(data, undefined, 2));
-        console.log('fetching sobrecalentamientos');
-        setSobrecalentamientos(data.getSobrecalentamientos);
+        setEficienciasDeTrabajo(data.getEficienciasDeTrabajo);
         // localStorage.setItem('stores', JSON.stringify(data.getTiendas));
         // getNewUpdateStoresDate();
       })
       .catch(error => {
-        console.error('error fetching sobrecalentamientos', error);
+        console.error('error fetching eficiencias', error);
         // Swal.fire({
         //   icon: 'error',
         //   title: 'Error al cargar las tiendas',
@@ -60,17 +60,16 @@ export const SobrecalentamientosScreen = () => {
   };
 
   useEffect(() => {
-    fetchSobrecalentamientos();
+    fetchEficienciasDeTrabajo();
   }, []);
-
   return (
     <View>
-      <Text style={styles.title}>Sobrecalentamientos</Text>
+      <Text style={styles.title}>Eficiencias de Trabajo</Text>
       <FlatList
-        data={sobrecalentamientos}
+        data={eficienciasDeTrabajo}
         renderItem={({item}) => (
-          <SobrecalentamientoPreview
-            temp_sobrecalentamiento={item.temp_sobrecalentamiento}
+          <EficienciaPreview
+            delta={item.delta}
             tienda={item.tienda}
             unidad={item.unidad}
             aprobado={item.aprobado}

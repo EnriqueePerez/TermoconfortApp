@@ -2,19 +2,12 @@ import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 
-import {View, Text, SafeAreaView} from 'react-native';
+import {SafeAreaView} from 'react-native';
 import {SobrecalentamientosScreen} from './src/screens/SobrecalentamientosScreen';
+import {EficienciasScreen} from './src/screens/EficienciasScreen';
 
 // const BottomTabs = createBottomTabNavigator();
 const TopTab = createMaterialTopTabNavigator();
-
-function SettingsScreen() {
-  return (
-    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-      <Text>Eficiencias de Trabajo</Text>
-    </View>
-  );
-}
 
 const App = () => {
   return (
@@ -28,8 +21,8 @@ const App = () => {
           />
           <TopTab.Screen
             name="Eficiencias de Trabajo"
-            component={SettingsScreen}
-            options={{title: 'Eficiencia de Trabajo'}}
+            component={EficienciasScreen}
+            options={{title: 'Eficiencias de Trabajo'}}
           />
         </TopTab.Navigator>
       </NavigationContainer>

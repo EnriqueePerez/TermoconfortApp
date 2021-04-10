@@ -224,3 +224,24 @@ export interface Sobrecalentamiento {
   aprobado: 'Si' | 'No';
   comentarios: string;
 }
+
+export interface EficienciaDeTrabajo {
+  id: string;
+  fecha_hora: string;
+  CR: string;
+  tienda: string;
+  id_usuario: number;
+  nombre_usuario: string;
+  unidad: string;
+  retorno: number;
+  inyeccion: number;
+  retorno2: number;
+  inyeccion2: number;
+  porcentaje_evaporador: number;
+  ciclos_evaporador: number;
+  porcentaje_condensador: number;
+  ciclos_condensador: number;
+  delta: number;
+  aprobado: 'Si' | 'No';
+  comentarios: string;
+}
