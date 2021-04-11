@@ -1,14 +1,26 @@
-import React, {useEffect, useState} from 'react';
-import {FlatList, StyleSheet, Text, View} from 'react-native';
-import {SobrecalentamientoPreview} from '../components/SobrecalentamientoPreview';
-import {gql, GraphQLClient} from 'graphql-request';
-import {SERVER_IP} from 'react-native-dotenv';
-import {Sobrecalentamiento} from '../types/graphqlTypes';
+import React, { useEffect, useState } from 'react';
+import { FlatList, StyleSheet, Text, View } from 'react-native';
+import { SobrecalentamientoPreview } from '../components/SobrecalentamientoPreview';
+import { gql, GraphQLClient } from 'graphql-request';
+import { SERVER_IP } from 'react-native-dotenv';
+import { Sobrecalentamiento } from '../types/graphqlTypes';
+import { StackScreenProps } from '@react-navigation/stack';
+import { RootSobrecalentamientoStackParams } from '../navigation/ShowDataStack';
 
-export const SobrecalentamientosScreen = () => {
+interface Props
+  extends StackScreenProps<
+    RootSobrecalentamientoStackParams,
+    'SobrecalentamientosScreen'
+  > {}
+
+export const SobrecalentamientosScreen = ({ navigation }: Props) => {
   const [sobrecalentamientos, setSobrecalentamientos] = useState<
     Sobrecalentamiento[]
   >();
+
+  const handlePress = (sobrecalentamiento: Sobrecalentamiento) => {
+    navigation.navigate('SobrecalentamientoDetail', sobrecalentamiento);
+  };
 
   const fetchSobrecalentamientos = async () => {
     const graphQLClient = new GraphQLClient(`${SERVER_IP}/api`, {
@@ -42,14 +54,14 @@ export const SobrecalentamientosScreen = () => {
 
     await graphQLClient
       .request(query)
-      .then(data => {
+      .then((data) => {
         // console.log(JSON.stringify(data, undefined, 2));
         console.log('fetching sobrecalentamientos');
         setSobrecalentamientos(data.getSobrecalentamientos);
         // localStorage.setItem('stores', JSON.stringify(data.getTiendas));
         // getNewUpdateStoresDate();
       })
-      .catch(error => {
+      .catch((error) => {
         console.error('error fetching sobrecalentamientos', error);
         // Swal.fire({
         //   icon: 'error',
@@ -68,7 +80,7 @@ export const SobrecalentamientosScreen = () => {
       <Text style={styles.title}>Sobrecalentamientos</Text>
       <FlatList
         data={sobrecalentamientos}
-        renderItem={({item}) => (
+        renderItem={({ item }) => (
           <SobrecalentamientoPreview
             temp_sobrecalentamiento={item.temp_sobrecalentamiento}
             tienda={item.tienda}
@@ -76,9 +88,10 @@ export const SobrecalentamientosScreen = () => {
             aprobado={item.aprobado}
             fecha={item.fecha_hora}
             nombre_usuario={item.nombre_usuario}
+            onPress={() => handlePress(item)}
           />
         )}
-        keyExtractor={item => item.id}
+        keyExtractor={(item) => item.id}
       />
     </View>
   );

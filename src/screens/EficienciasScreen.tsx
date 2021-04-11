@@ -1,9 +1,9 @@
-import React, {useEffect, useState} from 'react';
-import {GraphQLClient, gql} from 'graphql-request';
-import {FlatList, StyleSheet, Text, View} from 'react-native';
-import {EficienciaDeTrabajo} from '../types/graphqlTypes';
-import {SERVER_IP} from 'react-native-dotenv';
-import {EficienciaPreview} from '../components/EficienciaPreview';
+import React, { useEffect, useState } from 'react';
+import { GraphQLClient, gql } from 'graphql-request';
+import { FlatList, StyleSheet, Text, View } from 'react-native';
+import { EficienciaDeTrabajo } from '../types/graphqlTypes';
+import { SERVER_IP } from 'react-native-dotenv';
+import { EficienciaPreview } from '../components/EficienciaPreview';
 
 export const EficienciasScreen = () => {
   const [eficienciasDeTrabajo, setEficienciasDeTrabajo] = useState<
@@ -42,14 +42,14 @@ export const EficienciasScreen = () => {
 
     await graphQLClient
       .request(query)
-      .then(data => {
+      .then((data) => {
         console.log('fetching eficiencias');
         // console.log(JSON.stringify(data, undefined, 2));
         setEficienciasDeTrabajo(data.getEficienciasDeTrabajo);
         // localStorage.setItem('stores', JSON.stringify(data.getTiendas));
         // getNewUpdateStoresDate();
       })
-      .catch(error => {
+      .catch((error) => {
         console.error('error fetching eficiencias', error);
         // Swal.fire({
         //   icon: 'error',
@@ -67,7 +67,7 @@ export const EficienciasScreen = () => {
       <Text style={styles.title}>Eficiencias de Trabajo</Text>
       <FlatList
         data={eficienciasDeTrabajo}
-        renderItem={({item}) => (
+        renderItem={({ item }) => (
           <EficienciaPreview
             delta={item.delta}
             tienda={item.tienda}
@@ -77,7 +77,7 @@ export const EficienciasScreen = () => {
             nombre_usuario={item.nombre_usuario}
           />
         )}
-        keyExtractor={item => item.id}
+        keyExtractor={(item) => item.id}
       />
     </View>
   );

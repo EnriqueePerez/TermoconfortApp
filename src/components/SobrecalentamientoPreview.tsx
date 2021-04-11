@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {Pressable, StyleSheet, Text, View} from 'react-native';
 
 interface Props {
   temp_sobrecalentamiento: number;
@@ -8,6 +8,7 @@ interface Props {
   aprobado: 'Si' | 'No';
   fecha: string;
   nombre_usuario: string;
+  onPress: () => void;
 }
 
 export const SobrecalentamientoPreview = ({
@@ -17,9 +18,10 @@ export const SobrecalentamientoPreview = ({
   aprobado,
   fecha,
   nombre_usuario,
+  onPress,
 }: Props) => {
   return (
-    <View style={styles.container}>
+    <Pressable onPress={onPress} style={styles.container}>
       <View style={styles.dataRowContainer}>
         <Text style={styles.mainTitle}>Temperatura de Sobrecalentamiento</Text>
         <Text
@@ -48,7 +50,7 @@ export const SobrecalentamientoPreview = ({
         </Text>
         <Text style={styles.details}>Calculado por: {nombre_usuario}</Text>
       </View>
-    </View>
+    </Pressable>
   );
 };
 
