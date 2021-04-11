@@ -14,7 +14,7 @@ export const DataTopTab = () => {
         options={{ title: 'Sobrecalentamientos' }}
       />
       <TopTab.Screen
-        name="Eficiencias de Trabajo"
+        name="EficienciasDeTrabajo"
         component={EficienciasScreen}
         options={{ title: 'Eficiencias de Trabajo' }}
       />

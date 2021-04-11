@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import { StyleSheet, Text, View, Pressable } from 'react-native';
 
 interface Props {
   delta: number;
@@ -8,6 +8,7 @@ interface Props {
   aprobado: 'Si' | 'No';
   fecha: string;
   nombre_usuario: string;
+  onPress: () => void;
 }
 
 export const EficienciaPreview = ({
@@ -17,9 +18,10 @@ export const EficienciaPreview = ({
   aprobado,
   fecha,
   nombre_usuario,
+  onPress,
 }: Props) => {
   return (
-    <View style={styles.container}>
+    <Pressable onPress={onPress} style={styles.container}>
       <View style={styles.dataRowContainer}>
         <Text style={styles.mainTitle}>Delta</Text>
         <Text
@@ -31,12 +33,8 @@ export const EficienciaPreview = ({
         <Text style={styles.details}>
           {tienda} - {unidad}
         </Text>
-        <Text
-          style={[
-            styles.details,
-            aprobado === 'Si' ? styles.green : styles.red,
-          ]}>
-          {aprobado === 'Si' ? 'Aprobado' : 'No Aprobado'}
+        <Text style={styles.details}>
+          {new Date(fecha).toLocaleTimeString()}
         </Text>
       </View>
       <View style={styles.dataRowContainer}>
@@ -45,7 +43,7 @@ export const EficienciaPreview = ({
         </Text>
         <Text style={styles.details}>Calculado por: {nombre_usuario}</Text>
       </View>
-    </View>
+    </Pressable>
   );
 };
 

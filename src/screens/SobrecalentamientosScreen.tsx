@@ -5,12 +5,12 @@ import { gql, GraphQLClient } from 'graphql-request';
 import { SERVER_IP } from 'react-native-dotenv';
 import { Sobrecalentamiento } from '../types/graphqlTypes';
 import { StackScreenProps } from '@react-navigation/stack';
-import { RootSobrecalentamientoStackParams } from '../navigation/ShowDataStack';
+import { RootShowDataStackParams } from '../navigation/ShowDataStack';
 
 interface Props
   extends StackScreenProps<
-    RootSobrecalentamientoStackParams,
-    'SobrecalentamientosScreen'
+    RootShowDataStackParams,
+    'SobrecalentamientoDetailScreen'
   > {}
 
 export const SobrecalentamientosScreen = ({ navigation }: Props) => {
@@ -19,7 +19,7 @@ export const SobrecalentamientosScreen = ({ navigation }: Props) => {
   >();
 
   const handlePress = (sobrecalentamiento: Sobrecalentamiento) => {
-    navigation.navigate('SobrecalentamientoDetail', sobrecalentamiento);
+    navigation.navigate('SobrecalentamientoDetailScreen', sobrecalentamiento);
   };
 
   const fetchSobrecalentamientos = async () => {

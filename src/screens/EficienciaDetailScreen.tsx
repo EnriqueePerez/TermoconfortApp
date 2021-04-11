@@ -1,33 +1,28 @@
-import { StackScreenProps } from '@react-navigation/stack';
 import React, { useEffect } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { DetailInfo } from '../components/DetailInfo';
+import { View, Text, StyleSheet } from 'react-native';
+import { StackScreenProps } from '@react-navigation/stack';
 import { RootShowDataStackParams } from '../navigation/ShowDataStack';
+import { DetailInfo } from '../components/DetailInfo';
 
 interface Props
-  extends StackScreenProps<
-    RootShowDataStackParams,
-    'SobrecalentamientoDetailScreen'
-  > {}
+  extends StackScreenProps<RootShowDataStackParams, 'EficienciaDetailScreen'> {}
 
-export const SobrecalentamientoDetailScreen = ({
-  navigation,
-  route,
-}: Props) => {
+export const EficienciaDetailScreen = ({ navigation, route }: Props) => {
   const {
     tienda,
     CR,
-    temp_sobrecalentamiento,
+    delta,
     id,
     fecha_hora,
     unidad,
-    refrigerante,
-    presion_arranque,
-    presion_paro,
-    presion_succion,
-    resistencia_pt1000,
-    temp_tubo,
-    temp_saturacion,
+    retorno,
+    inyeccion,
+    retorno2,
+    inyeccion2,
+    porcentaje_evaporador,
+    ciclos_evaporador,
+    porcentaje_condensador,
+    ciclos_condensador,
     comentarios,
     nombre_usuario,
     aprobado,
@@ -35,7 +30,7 @@ export const SobrecalentamientoDetailScreen = ({
 
   useEffect(() => {
     navigation.setOptions({
-      title: 'Detalles - Sobrecalentamiento',
+      title: 'Detalles - Eficiencia de Trabajo',
     });
   });
   return (
@@ -46,7 +41,7 @@ export const SobrecalentamientoDetailScreen = ({
         </Text>
       </View>
       <View style={styles.headersContainer}>
-        <Text style={styles.mainTitles}>T. Sobrecalentamiento</Text>
+        <Text style={styles.mainTitles}>Delta</Text>
         <Text style={styles.headerSubtitles}>
           {new Date(fecha_hora).toLocaleTimeString()}
         </Text>
@@ -57,35 +52,48 @@ export const SobrecalentamientoDetailScreen = ({
             styles.mainTitles,
             aprobado === 'Si' ? styles.green : styles.red,
           ]}>
-          {temp_sobrecalentamiento} °C
+          {delta} °C
         </Text>
         <Text style={styles.headerSubtitles}>ID: {id}</Text>
       </View>
       <View style={styles.detailsContainer}>
         <View style={styles.details}>
           <DetailInfo title="Equipo" subtitle={unidad} />
-          <DetailInfo title="Refrigerante" subtitle={refrigerante} />
           <DetailInfo
             title="Fecha"
             subtitle={new Date(fecha_hora).toLocaleDateString()}
           />
         </View>
         <View style={styles.details}>
+          <DetailInfo title="Retorno" subtitle={retorno} />
+          <DetailInfo title="Inyección" subtitle={`${inyeccion} °C`} />
+        </View>
+        <View style={styles.details}>
+          {retorno2 !== 0 ? (
+            <DetailInfo title="Retorno 2" subtitle={`${retorno2} °C`} />
+          ) : null}
+          {retorno2 !== 0 ? (
+            <DetailInfo title="Inyección 2" subtitle={`${inyeccion2} °C`} />
+          ) : null}
+        </View>
+        <View style={styles.details}>
           <DetailInfo
-            title="P. Arranque"
-            subtitle={`${presion_arranque} psi`}
+            title="% Evaporador"
+            subtitle={`${porcentaje_evaporador} %`}
           />
-          <DetailInfo title="P. Paro" subtitle={`${presion_paro} psi`} />
-        </View>
-        <View style={styles.details}>
-          <DetailInfo title="P. Succión" subtitle={`${presion_succion} psi`} />
-          <DetailInfo title="R. PT1000" subtitle={`${resistencia_pt1000} Ω`} />
-        </View>
-        <View style={styles.details}>
-          <DetailInfo title="T. Tubo" subtitle={`${temp_tubo} °C`} />
           <DetailInfo
-            title="T. Saturación"
-            subtitle={`${temp_saturacion} °C`}
+            title="C. Evaporador"
+            subtitle={`${ciclos_evaporador} ciclos`}
+          />
+        </View>
+        <View style={styles.details}>
+          <DetailInfo
+            title="% Condensador"
+            subtitle={`${porcentaje_condensador} %`}
+          />
+          <DetailInfo
+            title="C. Condensador"
+            subtitle={`${ciclos_condensador} ciclos`}
           />
         </View>
       </View>

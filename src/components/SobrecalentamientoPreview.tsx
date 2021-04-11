@@ -1,5 +1,5 @@
 import React from 'react';
-import {Pressable, StyleSheet, Text, View} from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 interface Props {
   temp_sobrecalentamiento: number;
@@ -36,12 +36,8 @@ export const SobrecalentamientoPreview = ({
         <Text style={styles.details}>
           {tienda} - {unidad}
         </Text>
-        <Text
-          style={[
-            styles.details,
-            aprobado === 'Si' ? styles.green : styles.red,
-          ]}>
-          {aprobado === 'Si' ? 'Aprobado' : 'No Aprobado'}
+        <Text style={styles.details}>
+          {new Date(fecha).toLocaleTimeString()}
         </Text>
       </View>
       <View style={styles.dataRowContainer}>

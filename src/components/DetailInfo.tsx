@@ -22,6 +22,7 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
   },
   title: {
+    textAlign: 'center',
     marginTop: 4,
     marginBottom: 5,
     fontFamily: 'Open Sans',
@@ -29,6 +30,7 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
   subtitle: {
+    textAlign: 'center',
     marginBottom: 8,
     fontFamily: 'Open Sans',
     fontSize: 15,

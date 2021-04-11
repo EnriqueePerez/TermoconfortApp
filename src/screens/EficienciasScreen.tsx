@@ -4,11 +4,20 @@ import { FlatList, StyleSheet, Text, View } from 'react-native';
 import { EficienciaDeTrabajo } from '../types/graphqlTypes';
 import { SERVER_IP } from 'react-native-dotenv';
 import { EficienciaPreview } from '../components/EficienciaPreview';
+import { StackScreenProps } from '@react-navigation/stack';
+import { RootShowDataStackParams } from '../navigation/ShowDataStack';
 
-export const EficienciasScreen = () => {
+interface Props
+  extends StackScreenProps<RootShowDataStackParams, 'EficienciaDetailScreen'> {}
+
+export const EficienciasScreen = ({ navigation }: Props) => {
   const [eficienciasDeTrabajo, setEficienciasDeTrabajo] = useState<
     EficienciaDeTrabajo[]
   >();
+
+  const handlePress = (eficienciaDeTrabajo: EficienciaDeTrabajo) => {
+    navigation.navigate('EficienciaDetailScreen', eficienciaDeTrabajo);
+  };
 
   const fetchEficienciasDeTrabajo = async () => {
     const graphQLClient = new GraphQLClient(`${SERVER_IP}/api`, {
@@ -75,6 +84,7 @@ export const EficienciasScreen = () => {
             aprobado={item.aprobado}
             fecha={item.fecha_hora}
             nombre_usuario={item.nombre_usuario}
+            onPress={() => handlePress(item)}
           />
         )}
         keyExtractor={(item) => item.id}
