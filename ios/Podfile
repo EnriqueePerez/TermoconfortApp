@@ -1,7 +1,7 @@
 require_relative '../node_modules/react-native/scripts/react_native_pods'
 require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
 
-platform :ios, '14.4'
+platform :ios, '14.5'
 
 target 'TermoconfortApp' do
   config = use_native_modules!
@@ -21,12 +21,28 @@ target 'TermoconfortApp' do
   #
   # Note that if you have use_frameworks! enabled, Flipper will not work and
   # you should disable the next line.
-  use_flipper!({ 'Flipper' => '0.74.0' })
+  use_flipper!({ 'Flipper' => '0.79.1' })
 
   post_install do |installer|
     react_native_post_install(installer)
-    installer.pods_project.build_configurations.each do |config|
-      config.build_settings["EXCLUDED_ARCHS[sdk=iphonesimulator*]"] = "arm64"
+    
+    ## Fix for Flipper-Folly on iOS 14.5
+      find_and_replace("Pods/Flipper-Folly/folly/synchronization/DistributedMutex-inl.h",
+        "atomic_notify_one(state)", "folly::atomic_notify_one(state)")
+
+      find_and_replace("Pods/Flipper-Folly/folly/synchronization/DistributedMutex-inl.h",
+        "atomic_wait_until(&state, previous | data, deadline)", "folly::atomic_wait_until(&state, previous | data, deadline)")
+  end
+  def find_and_replace(dir, findstr, replacestr)
+    Dir[dir].each do |name|
+        text = File.read(name)
+        replace = text.gsub(findstr,replacestr)
+        if text != replace
+            puts "Fix: " + name
+            File.open(name, "w") { |file| file.puts replace }
+            STDOUT.flush
+        end
     end
+    Dir[dir + '*/'].each(&method(:find_and_replace))
   end
 end
